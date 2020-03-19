@@ -2,6 +2,7 @@ import jieba
 from gensim.similarities import SparseMatrixSimilarity
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
+from gensim.models import LdaModel
 
 import numpy as np
 import xlrd
@@ -19,7 +20,8 @@ def similar_result(sentence, key):
     # 3.2、同理，用词典把搜索词也转换为稀疏向量
     kw_vector = content_dict.doc2bow(key)
     # 4、创建TF-IDF模型，传入语料库来 训练
-    tfidf = TfidfModel(corpus)
+    # tfidf = TfidfModel(corpus)
+    tfidf = LdaModel(corpus)    # 使用lda模型
     # 5、用训练好的TF-IDF模型处理被检索文本和搜索词
     tf_texts = tfidf[corpus]
     # 此处将语料库用作被检索文本
@@ -32,8 +34,8 @@ def similar_result(sentence, key):
     return result
 
 
-message = np.load('message.npy').item()
-classifications = np.load('classifications.npy').item()
+message = np.load('message.npy', allow_pickle=bool).item()
+classifications = np.load('classifications.npy', allow_pickle=bool).item()
 
 template_cnt = {
     '城乡建设': 0,
