@@ -2,7 +2,6 @@ import xlrd
 import jieba
 import jieba.analyse
 import langid
-import numpy as np
 
 
 class Message(object):
@@ -42,6 +41,7 @@ class Classification(object):
                           jieba.analyse.extract_tags("{} {} {}".format(self.primary, self.secondary, self.third),
                                                      1000, withWeight=True)]
         # self.key_words = jieba.cut("{} {} {}".format(self.primary, self.secondary, self.third))
+
 
 def read_data(file):
     sheet = xlrd.open_workbook(file).sheet_by_index(0)
