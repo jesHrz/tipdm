@@ -3,7 +3,7 @@ from gensim.similarities import SparseMatrixSimilarity
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from gensim.models import LdaModel
-from evaluation import F1Score
+from src.T1.evaluation import F1Score
 
 import numpy as np
 import xlrd
