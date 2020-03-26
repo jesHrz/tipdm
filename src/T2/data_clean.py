@@ -1,9 +1,6 @@
-# encoding=utf-8
 import jieba
+import xlrd
 
-jieba.initialize()
-jieba.set_dictionary("data/address_words.txt")
-jieba.enable_paddle()  # 启动paddle模式。 0.40版之后开始支持，早期版本不支持
 jieba.load_userdict("data/address_words.txt")
 # jieba.load_userdict("data/sogou_dict.txt")
 strs = ["A市经济学院体育学院变相强制实习", "在A市人才app上申请购房补贴为什么通不过", "希望西地省把抗癌药品纳入医保范围", "A5区劳动东路魅力之城小区底层餐馆油烟扰民"]
@@ -30,3 +27,9 @@ for str in strs:
 #         fo.write(word + str(j) + " 10" + '\n')
 #         for k in base:
 #             fo.write(word + str(j) + k + " 10" + '\n')
+
+sheet = xlrd.open_workbook("data/messages2.xlsx").sheet_by_index(0)
+for i in range(1, sheet.nrows):
+    msg = sheet.cell(i, 2).value
+    seg_list = jieba.cut(msg, HMM=True)
+    print("jieba Mode: " + '/'.join(list(seg_list)))
