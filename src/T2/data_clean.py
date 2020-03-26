@@ -2,9 +2,10 @@ import jieba
 import jieba.analyse
 import xlrd
 import string
+from src.util.analyse import WordStriper
 
 address_list = ["国", "省", "市", "县", "区", "村", "街道", "学校", "学院"]
-
+obj = WordStriper()
 
 def judge_suffix(str_a, str_b):
     len1 = len(str_a)
@@ -25,15 +26,20 @@ def data_analyse():
     sheet = xlrd.open_workbook("data/messages2.xlsx").sheet_by_index(0)
 
     for i in range(1, sheet.nrows):
-        msg = sheet.cell(i, 2).value + sheet.cell(i, 4).value
-        seg_list = [key_word[0] for key_word in jieba.analyse.extract_tags(msg, 50, withWeight=True)]
-        # print("jieba Mode: " + '/'.join(list(seg_list)))
+        msg = sheet.cell(i, 2).value + " " + sheet.cell(i, 4).value
+        seg_list = obj.strip(msg.strip().replace("\t", ""))
+        # seg_list = [key_word for key_word in jieba.analyse.extract_tags(msg, 50)]
+        print("jieba Mode: " + '/'.join(list(seg_list)))
         address_result = ""
+        ans_dict = {}
         for seg in seg_list:
             for address in address_list:
-                if judge_suffix(seg, address):
-                    address_result += seg
-        print("地名：" + address_result)
+                if judge_suffix(seg, address) and len(ans_dict.get(address, "")) < len(seg):
+                    print(seg)
+                    ans_dict[address] = seg
+        for address in address_list:
+            address_result += ans_dict.get(address, "")
+        print(i, "地名：" + address_result)
 
 
 def main():
