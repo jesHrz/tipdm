@@ -92,7 +92,7 @@ def split_classification(file):
 
 
 if __name__ == "__main__":
-    # np.save("message.npy", read_data("data/messages.xlsx"))
+    np.save("message.npy", read_data("data/messages.xlsx"))
     np.save("classifications.npy", split_classification("data/classifications.xlsx"))
     # print(read_data("data/messages.xlsx"))
     # print(split_classification("data/classifications.xlsx"))
