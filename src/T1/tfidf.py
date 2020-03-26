@@ -21,7 +21,11 @@ def similar_result(sentence, key):
     kw_vector = content_dict.doc2bow(key)
     # 4、创建TF-IDF模型，传入语料库来 训练
     tfidf = TfidfModel(corpus)
+<<<<<<< HEAD
     # tfidf = LdaModel(corpus=corpus, id2word=content_dict, num_topics=1000)  # 使用lda模型
+=======
+    # tfidf = LdaModel(corpus)  # 使用lda模型
+>>>>>>> tmp
     # 5、用训练好的TF-IDF模型处理被检索文本和搜索词
     tf_texts = tfidf[corpus]
     # 此处将语料库用作被检索文本
