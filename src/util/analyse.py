@@ -9,14 +9,13 @@ class WordStriper(object):
 
     def strip(self, text, HMM=True, cut_all=False):
         _text = text.replace("\n", "").replace("\t", "")
+        # first replace
         for stop_word in self._stop_words:
-            _text = _text.replace(stop_word, " ")
-        # print(text)
-        print(_text)
+            _text = _text.replace(stop_word, ",")
         seg_list = jieba.cut(_text, HMM=HMM, cut_all=cut_all)
-        # word_list = []
-        # for seg in seg_list:
-        #     if seg.strip() not in self._stop_words:
-        #         word_list.append(seg.strip())
-        # print(list(seg_list))
-        return list(seg_list)
+        word_list = []
+        # second replace
+        for seg in seg_list:
+            if seg.strip() not in self._stop_words:
+                word_list.append(seg.strip())
+        return list(word_list)
