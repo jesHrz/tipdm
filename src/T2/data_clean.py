@@ -41,22 +41,8 @@ def data_analyse():
         print(i, "地名：" + address_result)
 
 
-def tryy():
-    fo = open("data/stop_words.txt", "r+")
-    str = fo.read()
-    str_list = str.split('\n')
-    str_list = sorted(str_list, key=lambda i: len(i), reverse=False)
-    fo.close()
-    fo = open("data/stop_words.txt", "r+")
-    fo.write(" " + '\n')
-    for item in str_list:
-        fo.write(item + '\n')
-
-
-
 def main():
     data_analyse()
-    # tryy()
 
 
 if __name__ == "__main__":
