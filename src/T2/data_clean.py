@@ -4,7 +4,8 @@ import xlrd
 import string
 from src.util.analyse import WordStriper
 
-address_list = ["国", "省", "市", "县", "区", "村", "街道", "学校", "学院"]
+address_list = ["国", "省", "市", "县", "区", "村", "街道", "学校", "学院", "平台"]
+platform_list = open("data/platform_words.txt", "r+").read().split('\n')
 obj = WordStriper()
 
 
@@ -22,6 +23,7 @@ def judge_suffix(str_a, str_b):
 
 def data_analyse():
     jieba.load_userdict("data/address_words.txt")
+    jieba.load_userdict("data/platform_words.txt")
     jieba.load_userdict("data/sogou_dict.txt")
     jieba.analyse.set_stop_words("data/stop_words.txt")
     sheet = xlrd.open_workbook("data/messages2.xlsx").sheet_by_index(0)
@@ -34,10 +36,15 @@ def data_analyse():
         ans_dict = {}
         for seg in seg_list:
             for address in address_list:
-                if judge_suffix(seg, address) and len(ans_dict.get(address, "")) < len(seg):
+                if address == "平台":
+                    if seg in platform_list:
+                        ans_dict[address] = seg + "平台"
+                elif judge_suffix(seg, address) and len(ans_dict.get(address, "")) < len(seg):
                     ans_dict[address] = seg
+
         for address in address_list:
             address_result += ans_dict.get(address, "")
+
         print(i, "地名：" + address_result)
 
 
