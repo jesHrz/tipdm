@@ -8,7 +8,7 @@ class WordStriper(object):
             self._stop_words = f.read().split("\n")
 
     def strip(self, text, HMM=True, cut_all=False):
-        _text = text.replace("\n", "").replace("\t", "")
+        _text = text.replace("\n", "").replace("\t", "").replace(" ", "")
 
         # first replace
         for stop_word in self._stop_words:
@@ -18,6 +18,9 @@ class WordStriper(object):
 
         # second replace
         for seg in seg_list:
-            if seg.strip() not in self._stop_words:
+            if len(seg.strip()) > 0 and seg.strip() not in self._stop_words:
                 word_list.append(seg.strip())
         return list(word_list)
+
+
+striper = WordStriper()
